@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<h:head>
+	<title>Calculator</title>
+	<h:outputStylesheet name="style.css" library="css" />
+</h:head>
+<h:body>
+	<h1>Calculator Test</h1>
+	<h:form>
+		<h:panelGrid cellpadding="5px" cellspacing="5px">
+			<h:panelGroup>
+				<h:outputLabel value="#{caluculatorBean.calculation}" />
+				<h:inputText id="input_result" value="#{caluculatorBean.result}" />
+				<h:commandButton 
+					value="Einreichen"
+					action="#{caluculatorBean.onSubmit()}"
+					disabled="#{caluculatorBean.btnSubmitDisabled}">
+					<f:ajax execute="@form" render="@form" />
+				</h:commandButton>
+				<h:commandButton 
+					value="hole Tipp"
+					action="#{caluculatorBean.onGetTipp()}"
+					disabled="#{caluculatorBean.btnGetTippsDisabled}">
+					<f:ajax execute="@this" render="@this tipps" />
+				</h:commandButton>
+				<h:commandButton 
+					action="#{caluculatorBean.onGetNext()}"
+					value="nächste Aufgabe">
+					<f:ajax execute="@form" render="@form" />
+				</h:commandButton>
+			</h:panelGroup>
+			<h:panelGroup>
+				<h:messages showSummary="true" id="output" />
+				<h:outputText id="tipps" value="#{caluculatorBean.tipp}" escape="false" />
+			</h:panelGroup>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:o="http://omnifaces.org/ui">
+
+<h:head>
+	<title>Calculator</title>
+	<h:outputStylesheet name="style.css" library="css" />
+	<h:outputStylesheet library="webjars"
+		name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
+</h:head>
+<h:body>
+	<h1>Calculator Test</h1>
+	<h:form prependId="false">
+		<f:passThroughAttribute name="autocomplete" value="off"/>	
+		<h:panelGrid columns="1">
+			<h:outputText value="richtig gelöste Aufgaben: #{caluculatorBean.solvedCounter}" />
+			<h:outputText value="davon mit Tipps gelöst: #{caluculatorBean.solvedCounterWithTipps}" />
+		</h:panelGrid>
+		<h:panelGrid cellpadding="5px" cellspacing="5px" styleClass="col-75%">
+			<h:panelGroup>
+				<h:panelGrid 
+					columns="5" 
+					styleClass="col-100"
+					columnClasses="col-20, col-10, col-10, col-10, col-10">
+					<h:outputText id="out_calculation"
+						value="#{caluculatorBean.calculation}" />
+					<h:inputText id="input_result" 
+						tabindex="1"
+						value="#{caluculatorBean.result}" />
+					<h:commandButton value="Einreichen" 
+						tabindex="2"
+						action="#{caluculatorBean.onSubmit()}"
+						disabled="#{caluculatorBean.btnSubmitDisabled}">
+						<f:ajax execute="@form" render="@form" />
+					</h:commandButton>
+					<h:commandButton value="hole Tipp" 
+						tabindex="3"
+						action="#{caluculatorBean.onGetTipp()}"
+						disabled="#{caluculatorBean.btnGetTippsDisabled}">
+						<f:ajax execute="@this" render="@this tipps" />
+					</h:commandButton>
+					<h:commandButton value="nächste Aufgabe" 
+						tabindex="4"
+						action="#{caluculatorBean.onGetNext()}">
+						<f:ajax execute="@form" render="@form" />
+					</h:commandButton>
+				</h:panelGrid>
+			</h:panelGroup>
+			<h:panelGroup>
+				<o:messages layout="table" showSummary="true" id="output"
+					escape="false" infoClass="success" errorClass="error" warnClass="warn" />
+			</h:panelGroup>
+			<h:panelGroup>
+				<h:outputText id="tipps" 
+					value="#{caluculatorBean.tipp}"
+					escape="false" />
+			</h:panelGroup>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+
+</html>
