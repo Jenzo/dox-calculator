@@ -7,12 +7,14 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.omnifaces.util.Ajax;
+import calculator.service.CalculationResult;
+import calculator.service.CalculationService;
+import calculator.service.MessageProducer;
+import calculator.service.TippGenerator;
 
 @Named
 @ViewScoped
@@ -20,9 +22,12 @@ public class CaluculatorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/*
-	 * FIELDS
-	 */
+	/* INJECTS */
+	@Inject
+	private TippGenerator tippGenerator;
+
+	@Inject
+	private CalculationService calculationService;
 
 	/* RANDS */
 	private int rand1;
@@ -36,9 +41,8 @@ public class CaluculatorBean implements Serializable {
 	private boolean showTips;
 	private List<String> tipps = new ArrayList<>();
 	private StringJoiner tipJoiner = new StringJoiner("</br>");
-	private TippGenerator tipGenerator = new TippGenerator();
 	private boolean tippRequested;
-	
+
 	private boolean solved;
 	private int solvedCounter = 0;
 	private int solvedCounterWithTipps = 0;
@@ -76,7 +80,7 @@ public class CaluculatorBean implements Serializable {
 	}
 
 	private void generateTipps() {
-		tipps = tipGenerator.generateTips(getExpectedResult());
+		tipps = tippGenerator.generateTips(getExpectedResult());
 	}
 
 	/*
@@ -84,27 +88,22 @@ public class CaluculatorBean implements Serializable {
 	 */
 
 	public void onSubmit() {
-		final int expectedResult = getExpectedResult();
-		final int submittedResult = getResult();
-		
-		final String msg;
-		
-		if (expectedResult == submittedResult) {
+
+		final CalculationResult response = calculationService.solveAdd(getExpectedResult(), getResult());
+
+		if (response.isCorrectSolved()) {
 			solved = true;
-			
-			msg = String.format("Dein Ergebnis ist richtig %s </br> Weiter zur nächsten Aufgabe", getSolvedIcon());
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, msg, ""));
+
 			solvedCounter++;
-			if(tippRequested) {
+			if (tippRequested) {
 				solvedCounterWithTipps++;
 			}
-			
+
+			MessageProducer.success(response.getMessage());
+
 		} else {
 			solved = false;
-			msg = String.format("Das ist leider nicht richtig %s </br>Versuche es nochmal oder hole Dir einen Tipp", getSolvedIcon());
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, ""));
+			MessageProducer.error(response.getMessage());
 		}
 
 	}
@@ -185,18 +184,10 @@ public class CaluculatorBean implements Serializable {
 		return solved;
 	}
 
-	private String getSolvedIcon() {
-		return String.format("<i class=\"%s\"></i> ", getIconClass());
-	}
-
-	private String getIconClass() {
-		return solved ? "fa fa-smile-o" : "fa fa-meh-o";
-	}
-	
 	public int getSolvedCounter() {
 		return solvedCounter;
 	}
-	
+
 	public int getSolvedCounterWithTipps() {
 		return solvedCounterWithTipps;
 	}

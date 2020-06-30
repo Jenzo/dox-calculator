@@ -1,19 +1,18 @@
-package calculator.ui;
+package calculator.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import calculator.service.CalculationService;
-import calculator.service.CalculationServiceImpl;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 
+
+@Stateless
 public class TippGenerator {
 
+	@Inject
 	private CalculationService calculationService;
-
-	public TippGenerator() {
-		calculationService = new CalculationServiceImpl();
-	}
 
 	public List<String> generateTips(final int expected) {
 		List<String> tipps = new ArrayList<>();
