@@ -4,32 +4,44 @@ import java.util.Objects;
 
 import calculator.user.model.User;
 
-public class UserBuilder {
+public class UserBuilder
+{
 
-	private User user = new User();
+    private User user = new User();
 
-	private UserBuilder() {
-	};
+    private UserBuilder()
+    {
+    }
 
-	public UserBuilder withUsername(final String username) {
-		user.setUsername(username);
-		return this;
-	}
+    public UserBuilder withUsername(final String username)
+    {
+        user.setUsername(username);
+        return this;
+    }
 
-	public UserBuilder withEmail(final String email) {
-		user.setEmail(email);
-		return this;
-	}
+    public UserBuilder withSolved(final boolean solved)
+    {
+        user.setSolved(solved);
+        return this;
+    }
 
-	public User build() {
+    public UserBuilder withEmail(final String email)
+    {
+        user.setEmail(email);
+        return this;
+    }
 
-		Objects.requireNonNull(user, "user must not be null");
-		Objects.requireNonNull(user.getUsername(), "user.username must not be null");
+    public User build()
+    {
 
-		return user;
-	}
+        Objects.requireNonNull(user, "user must not be null");
+        Objects.requireNonNull(user.getUsername(), "user.username must not be null");
 
-	public static UserBuilder newBuilder() {
-		return new UserBuilder();
-	}
+        return user;
+    }
+
+    public static UserBuilder newBuilder()
+    {
+        return new UserBuilder();
+    }
 }

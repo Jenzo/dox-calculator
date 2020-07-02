@@ -1,7 +1,5 @@
-
-:root {
-	--blue: #66afe9;
-	--disabled: #ccc;
+:root { --blue: #66afe9; 
+		--disabled: #ccc;
 }
 
 * {
@@ -17,6 +15,7 @@ input {
 	border-radius: 4px;
 	border: solid 1px var(--blue);
 	padding: 4px;
+	margin: 0 4px;;
 }
 
 input:focus, input[type=submit]:hover {
@@ -25,7 +24,6 @@ input:focus, input[type=submit]:hover {
 	box-shadow: 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
 		rgba(102, 175, 233, .6);
 }
-
 
 input[type=submit] {
 	color: var(--blue);
@@ -56,6 +54,14 @@ input[type=submit]:disabled {
 	text-align: right;
 }
 
+.right {
+	text-align: right;
+}
+
+.align-top {
+	vertical-align: top;
+}
+
 .col-10 {
 	width: 10%;
 }
@@ -72,8 +78,20 @@ input[type=submit]:disabled {
 	width: 25%;
 }
 
+.col-35 {
+	width: 35%;
+}
+
 .col-50 {
 	width: 50%;
+}
+
+.col-60 {
+	width: 60%;
+}
+
+.col-65 {
+	width: 65%:
 }
 
 .col-75 {
@@ -82,4 +100,38 @@ input[type=submit]:disabled {
 
 .col-100 {
 	width: 100%;
+}
+
+/* ROWS  */
+
+.row-10 {
+	height: 10px;
+}
+
+.row-15 {
+	height: 15px;
+}
+
+.row-20 {
+	height: 20px;
+}
+
+.row-30 {
+	height: 30px;
+}
+
+.row-40 {
+	height: 40px;
+}
+
+.row-50 {
+	height: 50px;
+}
+
+.row-60 {
+	height: 60px;
+}
+
+.row-70 {
+	height: 70px;
 }

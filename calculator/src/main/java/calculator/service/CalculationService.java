@@ -2,58 +2,58 @@ package calculator.service;
 
 import javax.ejb.Stateless;
 
+import calculator.ui.messages.Icons;
+
 @Stateless
-public class CalculationService {
+public class CalculationService
+{
 
-	public CalculationResult solveAdd(final int expected, final int submitted) {
+    public CalculationResult solve(final int expected, final int submitted)
+    {
 
-		boolean correct = false;
-		final String message;
+        boolean correct = expected == submitted;
+        final String message = createMessage(correct);
 
-		if (expected == submitted) {
-			correct = true;
-			message = createMessage(true);
-		} else {
-			message = createMessage(false);
-		}
+        return new CalculationResult(message, correct);
+    }
 
-		return new CalculationResult(message, correct);
-	}
+    public boolean isPrime(int n)
+    {
+        if(n == 0 || n == 1)
+        {
+            return false;
+        }
 
-	public boolean isPrime(int n) {
-		if (n == 0 || n == 1) {
-			return false;
-		}
+        boolean isPrime = false;
+        for(int i = 2; i <= n / 2; ++i)
+        {
+            if(n % i == 0)
+            {
+                isPrime = true;
+                break;
+            }
+        }
 
-		boolean isPrime = false;
-		for (int i = 2; i <= n / 2; ++i) {
-			if (n % i == 0) {
-				isPrime = true;
-				break;
-			}
-		}
+        return !isPrime;
 
-		return !isPrime;
+    }
 
-	}
+    private String createMessage(final boolean correct)
+    {
 
-	private String createMessage(final boolean correct) {
+        if(correct)
+        {
+            return String.format(
+                    "Dein Ergebnis ist richtig {0} %s </br> Weiter zur nächsten Aufgabe",
+                    Icons.getSmileO());
+        }
+        else
+        {
+            return String.format(
+                    "Das ist leider nicht richtig {0} %s </br>Versuche es nochmal oder hole Dir einen Tipp",
+                    Icons.getMehO());
+        }
 
-		if (correct) {
-			return String.format("Dein Ergebnis ist richtig %s </br> Weiter zur nächsten Aufgabe", getSolvedIcon(true));
-		} else {
-			return String.format("Das ist leider nicht richtig %s </br>Versuche es nochmal oder hole Dir einen Tipp",
-					getSolvedIcon(false));
-		}
-
-	}
-
-	private String getSolvedIcon(final boolean correct) {
-		return String.format("<i class=\"%s\"></i> ", getIconClass(correct));
-	}
-
-	private String getIconClass(final boolean correct) {
-		return correct ? "fa fa-smile-o" : "fa fa-meh-o";
-	}
+    }
 
 }

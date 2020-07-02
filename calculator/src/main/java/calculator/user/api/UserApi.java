@@ -4,30 +4,34 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import calculator.user.builder.UserBuilder;
 import calculator.user.model.User;
 
 @Stateless
-public class UserApi {
+public class UserApi
+{
 
-	private EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
-	public User createUser(final String username) {
-		User user = UserBuilder.newBuilder().withUsername(username).build();
-		em.persist(user);
+    public void persist(final User user)
+    {
+        em.persist(user);
+    }
 
-		return user;
-	}
+    public User findUserById(final long id)
+    {
+        return em.createNamedQuery(User.findById, User.class).setParameter("userId", id).getSingleResult();
+    }
 
-	public User findUserById(final long id) {
-		return em.createNamedQuery(User.FIND_BY_ID, User.class)
-				.setParameter("userId", id)
-				.getSingleResult();
-	}
+    public List<User> findAll()
+    {
+        return em.createNamedQuery(User.findAll, User.class).getResultList();
+    }
 
-	public List<User> findAll() {
-		return em.createNamedQuery(User.FIND_ALL, User.class)
-				.getResultList();
-	}
+    public List<User> findUsersBySolved(final boolean solved)
+    {
+        return em.createNamedQuery(User.findAllBySolved, User.class).getResultList();
+    }
 }
