@@ -37,27 +37,27 @@ input[type=submit]:disabled {
 	box-shadow: none;
 }
 
-.users-table{
-	border-collapse:collapse;
+.users-table {
+	border-collapse: collapse;
 }
 
-.users-table-header{
-	text-align:center;
-	background:none repeat scroll 0 0 #E5E5E5;
-	border-bottom:1px solid #BBBBBB;
-	padding:16px;
+.users-table-header {
+	text-align: center;
+	background: none repeat scroll 0 0 #E5E5E5;
+	border-bottom: 1px solid #BBBBBB;
+	padding: 16px;
 }
 
 .users-table-odd-row {
-	text-align:center;
-	background:none repeat scroll 0 0 #FFFFFFF;
-	border-top:1px solid #BBBBBB;
+	text-align: right;
+	background: none repeat scroll 0 0 #FFFFFFF;
+	border-top: 1px solid #BBBBBB;
 }
 
 .users-table-even-row {
-	text-align:center;
-	background:none repeat scroll 0 0 #F9F9F9;
-	border-top:1px solid #BBBBBB;
+	text-align: right;
+	background: none repeat scroll 0 0 #F9F9F9;
+	border-top: 1px solid #BBBBBB;
 }
 
 .success {
