@@ -9,7 +9,6 @@ import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import calculator.business.calculation.CalculationService;
@@ -29,10 +28,10 @@ public class CalculatorBean implements Serializable
 
     /* INJECTS */
 
-    @Inject
+    @EJB
     private CalculationService calculationService;
 
-    @Inject
+    @EJB
     private UserApi userApi;
 
     @EJB

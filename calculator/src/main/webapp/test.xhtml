@@ -22,8 +22,8 @@
 				value="davon mit Tipps gelöst: #{calculatorBean.solvedCounterWithTipps}" />
 		</h:panelGrid>
 
-		<h:panelGrid columns="2" styleClass="col-50"
-			columnClasses="col-35 right,col-50 left" cellspacing="4px"
+		<h:panelGrid columns="2" styleClass="col-100"
+			columnClasses="col-35 text-right,col-50 text-left" cellspacing="4px"
 			cellpadding="4px" rowClasses="row-40, row-70, row-40">
 
 			<h:panelGroup>
@@ -83,7 +83,7 @@
 					<f:ajax execute="@this" render="@form" />
 				</h:commandButton>
 			</h:panelGroup>
-			<h:panelGroup id="tableUser">
+			<h:panelGroup id="tableUser" styleClass="right">
 				<h:dataTable value="#{calculatorBean.users}" var="u"
 					title="Liste bisheriger User"
 					rendered="#{calculatorBean.showUsers}" styleClass="users-table"
@@ -101,6 +101,7 @@
 					</h:column>
 				</h:dataTable>
 			</h:panelGroup>
+			<div />
 		</h:panelGrid>
 	</h:form>
 
