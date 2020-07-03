@@ -67,7 +67,7 @@
 				<h:commandButton value="hole Tipp"
 					action="#{calculatorBean.onGetTipp()}"
 					disabled="#{calculatorBean.solved}">
-					<f:ajax execute="@this" render="@form" />
+					<f:ajax execute="@this" render="msg_panel_group" />
 				</h:commandButton>
 			</h:panelGroup>
 
@@ -86,7 +86,9 @@
 			<h:panelGroup id="tableUser">
 				<h:dataTable value="#{calculatorBean.users}" var="u"
 					title="Liste bisheriger User"
-					rendered="#{calculatorBean.showUsers}">
+					rendered="#{calculatorBean.showUsers}" styleClass="users-table"
+					headerClass="users-table-header"
+					rowClasses="users-table-odd-row, users-table-even-row">
 
 					<h:column>
 						<f:facet name="header">Username</f:facet>
@@ -95,7 +97,7 @@
 
 					<h:column>
 						<f:facet name="header">Prüfergebnis</f:facet>
-						<h:outputText value="#{u.solved}" />
+						<h:outputText value="#{u.solved}" converter="solvedConverter" />
 					</h:column>
 				</h:dataTable>
 			</h:panelGroup>
