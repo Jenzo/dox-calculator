@@ -15,11 +15,15 @@
 
 	<h:form prependId="false">
 		<f:passThroughAttribute name="autocomplete" value="off" />
-		<h:panelGrid columns="1" rendered="false">
+		<h:panelGrid columns="1">
 			<h:outputText
 				value="richtig gelöste Aufgaben: #{calculatorBean.solvedCounter}" />
 			<h:outputText
 				value="davon mit Tipps gelöst: #{calculatorBean.solvedCounterWithTipps}" />
+			<h:outputLabel
+				value="Bester User bisher: #{calculatorBean.bestUser.username}" />
+			<h:outputText
+				value="Highscore: #{calculatorBean.bestUser.correctAnswers}" />
 		</h:panelGrid>
 
 		<h:panelGrid columns="2" styleClass="col-100"
@@ -88,11 +92,17 @@
 					title="Liste bisheriger User"
 					rendered="#{calculatorBean.showUsers}" styleClass="users-table"
 					headerClass="users-table-header"
-					rowClasses="users-table-odd-row, users-table-even-row">
+					rowClasses="users-table-odd-row, users-table-even-row"
+					columnClasses="text-center, text-center, text-right">
 
 					<h:column>
 						<f:facet name="header">Username</f:facet>
 						<h:outputText value="#{u.username}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">korrekte Antworten</f:facet>
+						<h:outputText value="#{u.correctAnswers}" />
 					</h:column>
 
 					<h:column>

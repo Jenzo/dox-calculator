@@ -11,12 +11,13 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import calculator.business.calculation.CalculationRequest;
+import calculator.business.calculation.CalculationUIResult;
 import calculator.business.calculation.CalculationService;
+import calculator.business.calculation.Operation;
 import calculator.business.tipp.TippGenerator;
-import calculator.model.calculation.CalculationResult;
-import calculator.model.user.api.UserApi;
-import calculator.model.user.builder.UserBuilder;
-import calculator.model.user.entity.User;
+import calculator.model.user.User;
+import calculator.model.user.UserModel;
 import calculator.ui.messages.Messages;
 
 @Named
@@ -29,10 +30,10 @@ public class CalculatorBean implements Serializable
     /* INJECTS */
 
     @EJB
-    private CalculationService calculationService;
+    private UserModel model;
 
     @EJB
-    private UserApi userApi;
+    private CalculationService calculationService;
 
     @EJB
     private TippGenerator tippGenerator;
@@ -46,7 +47,6 @@ public class CalculatorBean implements Serializable
 
     /* TIPPS */
     private boolean showTipps;
-    private boolean tippRequested;
     private String tip;
 
     /* SOLVE STATS */
@@ -58,6 +58,7 @@ public class CalculatorBean implements Serializable
     private String username;
     private List<User> users = new ArrayList<>();
     private boolean showUsers;
+    private User bestUser;
 
     /* INIT */
     @PostConstruct
@@ -81,7 +82,6 @@ public class CalculatorBean implements Serializable
     private void resetTipps()
     {
         tip = "";
-        tippRequested = false;
         tippGenerator.generateTipps(getExpectedResult());
 
     }
@@ -96,7 +96,8 @@ public class CalculatorBean implements Serializable
 
     private void resetUser()
     {
-        users = userApi.findAll();
+        users = model.getUserApi().findAll();
+        bestUser = model.getUserApi().findByMostCorrectAnswered();
     }
 
     /*
@@ -106,20 +107,18 @@ public class CalculatorBean implements Serializable
     public void onSubmit()
     {
 
-        final CalculationResult response = calculationService.solve(getExpectedResult(), getResult());
-        final String msg = MessageFormat.format(response.getMessage(), username);
-        if(response.isCorrectSolved())
+        final User user = model.getUserOrNew(username);
+        final CalculationUIResult calculationResult = calculationService.solve(
+                new CalculationRequest(rand1, rand2, Operation.ADD),
+                result);
+        final String msg = MessageFormat.format(calculationResult.getMessage(), user.getUsername());
+
+        if(calculationResult.isCorrectSolved())
         {
             solved = true;
-
-            solvedCounter++;
-            if(tippRequested)
-            {
-                solvedCounterWithTipps++;
-            }
+            user.setCorrectAnswers(user.getCorrectAnswers() + 1);
 
             Messages.success("input_result", msg);
-
         }
         else
         {
@@ -127,18 +126,17 @@ public class CalculatorBean implements Serializable
             Messages.error("input_result", msg);
         }
 
-        final User u = UserBuilder.newBuilder().withUsername(username).withSolved(solved).build();
-        userApi.persist(u);
+        user.setSolved(solved);
+        model.getUserApi().merge(user);
+
         resetUser();
         setShowTipps(false);
-        
 
     }
 
     public void onGetTipp()
     {
         setShowTipps(true);
-        tippRequested = true;
 
         tip = tippGenerator.getTipp();
     }
@@ -156,6 +154,7 @@ public class CalculatorBean implements Serializable
     /*
      * GETTER AND SETTER
      */
+
     public String getUsername()
     {
         return username;
@@ -255,6 +254,11 @@ public class CalculatorBean implements Serializable
     public void setShowTipps(boolean showTipps)
     {
         this.showTipps = showTipps;
+    }
+
+    public User getBestUser()
+    {
+        return bestUser;
     }
 
 }

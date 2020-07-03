@@ -2,20 +2,39 @@ package calculator.business.calculation;
 
 import javax.ejb.Stateless;
 
-import calculator.model.calculation.CalculationResult;
 import calculator.ui.messages.Icons;
 
 @Stateless
 public class CalculationService
 {
 
-    public CalculationResult solve(final int expected, final int submitted)
+    public CalculationUIResult solve(final CalculationRequest request, final Object submittedResult)
     {
 
-        boolean correct = expected == submitted;
+        final CalculationResult calResult = solve(request);
+
+        boolean correct = calResult.getResult() == submittedResult;
         final String message = createMessage(correct);
 
-        return new CalculationResult(message, correct);
+        return new CalculationUIResult(message, correct);
+    }
+
+    public CalculationResult solve(final CalculationRequest request)
+    {
+        switch(request.getOperation())
+        {
+        case ADD:
+            return solveAdd(request);
+        default:
+            return new CalculationResult(request, null);
+        }
+    }
+
+    private CalculationResult solveAdd(CalculationRequest r)
+    {
+        int op1 = (int)r.getOperand1();
+        int op2 = (int)r.getOperand2();
+        return new CalculationResult(r, op1 + op2);
     }
 
     public boolean isPrime(int n)

@@ -1,11 +1,11 @@
-package calculator.model.calculation;
+package calculator.business.calculation;
 
-public class CalculationResult {
+public class CalculationUIResult {
 
 	private final String message;
 	private final boolean correctSolved;
 
-	public CalculationResult(final String message, final boolean correctSolved) {
+	public CalculationUIResult(final String message, final boolean correctSolved) {
 		this.message = message;
 		this.correctSolved = correctSolved;
 	}

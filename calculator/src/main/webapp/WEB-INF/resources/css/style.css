@@ -49,13 +49,11 @@ input[type=submit]:disabled {
 }
 
 .users-table-odd-row {
-	text-align: right;
 	background: none repeat scroll 0 0 #FFFFFFF;
 	border-top: 1px solid #BBBBBB;
 }
 
 .users-table-even-row {
-	text-align: right;
 	background: none repeat scroll 0 0 #F9F9F9;
 	border-top: 1px solid #BBBBBB;
 }
@@ -91,6 +89,10 @@ input[type=submit]:disabled {
 
 .text-right {
 	text-align: right;
+}
+
+.text-center {
+	text-align: center;
 }
 
 .align-top {

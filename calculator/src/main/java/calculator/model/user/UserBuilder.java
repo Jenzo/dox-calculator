@@ -1,8 +1,6 @@
-package calculator.model.user.builder;
+package calculator.model.user;
 
 import java.util.Objects;
-
-import calculator.model.user.entity.User;
 
 public class UserBuilder
 {
@@ -22,6 +20,12 @@ public class UserBuilder
     public UserBuilder withSolved(final boolean solved)
     {
         user.setSolved(solved);
+        return this;
+    }
+
+    public UserBuilder withCorrectAnswers(final int correctAnswers)
+    {
+        user.setCorrectAnswers(correctAnswers);
         return this;
     }
 

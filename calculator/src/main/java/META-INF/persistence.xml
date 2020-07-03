@@ -7,7 +7,7 @@
 	<persistence-unit name="calculatorPU"
 		transaction-type="JTA">
 		<jta-data-source>java:global/CalculatorDataSource</jta-data-source>
-		<class>calculator.model.user.entity.User</class>
+		<class>calculator.model.user.User</class>
 		<properties>
 			<property
 				name="javax.persistence.schema-generation.database.action"
