@@ -1,4 +1,4 @@
-package calculator.user.api;
+package calculator.model.user.api;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import calculator.user.model.User;
+import calculator.model.user.entity.User;
 
 @Stateless
 public class UserApi

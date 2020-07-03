@@ -1,8 +1,8 @@
-package calculator.user.builder;
+package calculator.model.user.builder;
 
 import java.util.Objects;
 
-import calculator.user.model.User;
+import calculator.model.user.entity.User;
 
 public class UserBuilder
 {

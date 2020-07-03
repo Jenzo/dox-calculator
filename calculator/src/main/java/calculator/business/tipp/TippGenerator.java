@@ -1,4 +1,4 @@
-package calculator.service.tipp;
+package calculator.business.tipp;
 
 public interface TippGenerator
 {

@@ -1,4 +1,4 @@
-package calculator.user.model;
+package calculator.model.user.entity;
 
 import java.io.Serializable;
 

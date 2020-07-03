@@ -1,4 +1,4 @@
-package calculator.service.calculation;
+package calculator.model.calculation;
 
 public class CalculationResult {
 

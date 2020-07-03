@@ -1,7 +1,8 @@
-package calculator.service.calculation;
+package calculator.business.calculation;
 
 import javax.ejb.Stateless;
 
+import calculator.model.calculation.CalculationResult;
 import calculator.ui.messages.Icons;
 
 @Stateless
