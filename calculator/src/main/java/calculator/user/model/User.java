@@ -29,11 +29,11 @@ public class User implements Serializable
     @Column(nullable = false)
     private String username;
 
+    @Column()
+    private boolean solved;
+
     @Column
     private String email;
-
-    @Column(nullable = false)
-    private boolean solved;
 
     public String getEmail()
     {
@@ -73,6 +73,49 @@ public class User implements Serializable
     public void setSolved(boolean solved)
     {
         this.solved = solved;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + (int)(id ^ (id >>> 32));
+        result = prime * result + (solved ? 1231 : 1237);
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(this == obj)
+            return true;
+        if(obj == null)
+            return false;
+        if(getClass() != obj.getClass())
+            return false;
+        User other = (User)obj;
+        if(email == null)
+        {
+            if(other.email != null)
+                return false;
+        }
+        else if(!email.equals(other.email))
+            return false;
+        if(id != other.id)
+            return false;
+        if(solved != other.solved)
+            return false;
+        if(username == null)
+        {
+            if(other.username != null)
+                return false;
+        }
+        else if(!username.equals(other.username))
+            return false;
+        return true;
     }
 
 }

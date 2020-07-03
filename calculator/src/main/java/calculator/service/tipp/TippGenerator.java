@@ -1,4 +1,4 @@
-package calculator.service;
+package calculator.service.tipp;
 
 public interface TippGenerator
 {

@@ -32,6 +32,6 @@ public class UserApi
 
     public List<User> findUsersBySolved(final boolean solved)
     {
-        return em.createNamedQuery(User.findAllBySolved, User.class).getResultList();
+        return em.createNamedQuery(User.findAllBySolved, User.class).setParameter("solved", solved).getResultList();
     }
 }

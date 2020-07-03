@@ -1,4 +1,4 @@
-package calculator.ui;
+package calculator.ui.beans;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -12,9 +12,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import calculator.service.CalculationResult;
-import calculator.service.CalculationService;
-import calculator.service.TippGenerator;
+import calculator.service.calculation.CalculationResult;
+import calculator.service.calculation.CalculationService;
+import calculator.service.tipp.TippGenerator;
 import calculator.ui.messages.Messages;
 import calculator.user.api.UserApi;
 import calculator.user.builder.UserBuilder;

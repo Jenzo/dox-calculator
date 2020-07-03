@@ -1,4 +1,4 @@
-package calculator.service;
+package calculator.service.tipp;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
+
+import calculator.service.calculation.CalculationService;
 
 @Stateful
 @Local(TippGenerator.class)

@@ -20,16 +20,16 @@ public class Messages
         success(null, message);
     }
 
-    public static void error(final String message)
-    {
-        error(null, message);
-    }
-
     public static void success(final String clientId, final String message)
     {
         build(
                 clientId,
                 FacesMessageBuilder.newMessage().withSummary(message).withSeverity(FacesMessage.SEVERITY_INFO).build());
+    }
+
+    public static void error(final String message)
+    {
+        error(null, message);
     }
 
     public static void error(final String clientId, final String message)
