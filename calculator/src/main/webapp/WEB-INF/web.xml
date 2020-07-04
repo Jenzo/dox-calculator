@@ -15,6 +15,9 @@
 		<param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
 		<param-value>/WEB-INF/resources</param-value>
 	</context-param>
+
+
+	<!-- SERVLETS -->
 	<servlet>
 		<servlet-name>facesServlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -22,14 +25,27 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>facesServlet</servlet-name>
-		<url-pattern>*.xhtml</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 
+	<!-- FILTER -->
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>login.LoginFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/secure/*</url-pattern>
+	</filter-mapping>
+
+	<!-- WELCOME PAGES -->
 	<welcome-file-list>
-		<welcome-file>/test.xhtml</welcome-file>
+		<welcome-file>*/login.xhtml</welcome-file>
 	</welcome-file-list>
 
+	<!-- DATASOURCE -->
 	<data-source>
 		<name>java:global/CalculatorDataSource</name>
 		<class-name>org.h2.jdbcx.JdbcDataSource</class-name>

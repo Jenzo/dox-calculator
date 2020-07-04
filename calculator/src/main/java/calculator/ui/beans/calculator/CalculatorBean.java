@@ -60,10 +60,14 @@ public class CalculatorBean implements Serializable
     private boolean showUsers;
     private User bestUser;
 
+    private User currentUser;
+
     /* INIT */
     @PostConstruct
     public void onConstruct()
     {
+        currentUser = model.getCurrentUser();
+        username = currentUser.getUsername();
         resetView();
     }
 
@@ -259,6 +263,11 @@ public class CalculatorBean implements Serializable
     public User getBestUser()
     {
         return bestUser;
+    }
+
+    public User getCurrentUser()
+    {
+        return currentUser;
     }
 
 }

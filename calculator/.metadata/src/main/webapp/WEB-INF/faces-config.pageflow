@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15938781489440" configfile="/calculator/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="562" id="pf15938784673891" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf15938912176715" inlinks="pf15938912176716" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="secure/test.xhtml" x="122" y="178" id="pf15938784673893" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" path="/secure/test.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="554" y="562" id="pf15938912176717" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15938912176715" path="secure/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="secure/*.xhtml" x="122" y="562" id="pf15938912176718" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf15938912176716" path="/secure/*.xhtml"/>
+  <links id="pf15938912176715" target="pf15938912176717" source="pf15938784673891" outcome="success" redirect="true" fromaction="#{loginBean.login}"/>
+  <links id="pf15938912176716" target="pf15938784673891" source="pf15938912176718" outcome="login" redirect="true" fromaction="#{loginBean.logout}"/>
+</pageflow:Pageflow>
