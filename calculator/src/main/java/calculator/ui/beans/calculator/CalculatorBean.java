@@ -1,23 +1,22 @@
 package calculator.ui.beans.calculator;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import calculator.business.calculation.CalculationRequest;
-import calculator.business.calculation.CalculationUIResult;
-import calculator.business.calculation.CalculationService;
-import calculator.business.calculation.Operation;
-import calculator.business.tipp.TippGenerator;
+import calculator.business.task.TaskProviderBean;
+import calculator.business.tipp.TippProviderBean;
+import calculator.model.task.Task;
 import calculator.model.user.User;
 import calculator.model.user.UserModel;
+import calculator.ui.messages.Icons;
 import calculator.ui.messages.Messages;
 
 @Named
@@ -33,17 +32,14 @@ public class CalculatorBean implements Serializable
     private UserModel model;
 
     @EJB
-    private CalculationService calculationService;
+    private TippProviderBean tippProvider;
 
     @EJB
-    private TippGenerator tippGenerator;
+    private TaskProviderBean taskProvider;
 
-    /* RANDS */
-    private int rand1;
-    private int rand2;
-    private int result;
-    private Random random = new Random();
-    private static final int BOUNDARY = 75;
+    /* TASK */
+    private transient Task task;
+    private BigDecimal userResult;
 
     /* TIPPS */
     private boolean showTipps;
@@ -51,8 +47,6 @@ public class CalculatorBean implements Serializable
 
     /* SOLVE STATS */
     private boolean solved;
-    private int solvedCounter = 0;
-    private int solvedCounterWithTipps = 0;
 
     /* USER */
     private String username;
@@ -78,7 +72,7 @@ public class CalculatorBean implements Serializable
     private void resetView()
     {
         setShowTipps(false);
-        resetRands();
+        resetTask();
         resetTipps();
         resetUser();
     }
@@ -86,16 +80,15 @@ public class CalculatorBean implements Serializable
     private void resetTipps()
     {
         tip = "";
-        tippGenerator.generateTipps(getExpectedResult());
+        tippProvider.generateTipps(task.getCalculation().getResult().intValue());
 
     }
 
-    private void resetRands()
+    private void resetTask()
     {
-        result = 0;
-        rand1 = random.nextInt(BOUNDARY);
-        rand2 = random.nextInt(BOUNDARY);
+        userResult = new BigDecimal(0);
         solved = false;
+        task = taskProvider.createTask();
     }
 
     private void resetUser()
@@ -111,16 +104,13 @@ public class CalculatorBean implements Serializable
     public void onSubmit()
     {
 
-        final User user = model.getUserOrNew(username);
-        final CalculationUIResult calculationResult = calculationService.solve(
-                new CalculationRequest(rand1, rand2, Operation.ADD),
-                result);
-        final String msg = MessageFormat.format(calculationResult.getMessage(), user.getUsername());
+        final boolean correctSolved = task.isCorrectSolved(userResult);
+        final String msg = MessageFormat.format(createSolvedMessage(correctSolved), currentUser.getUsername());
 
-        if(calculationResult.isCorrectSolved())
+        if(correctSolved)
         {
             solved = true;
-            user.setCorrectAnswers(user.getCorrectAnswers() + 1);
+            currentUser.setCorrectAnswers(currentUser.getCorrectAnswers() + 1);
 
             Messages.success("input_result", msg);
         }
@@ -130,8 +120,8 @@ public class CalculatorBean implements Serializable
             Messages.error("input_result", msg);
         }
 
-        user.setSolved(solved);
-        model.getUserApi().merge(user);
+        currentUser.setSolved(solved);
+        model.getUserApi().merge(currentUser);
 
         resetUser();
         setShowTipps(false);
@@ -142,7 +132,7 @@ public class CalculatorBean implements Serializable
     {
         setShowTipps(true);
 
-        tip = tippGenerator.getTipp();
+        tip = tippProvider.getTipp();
     }
 
     public void onGetNext()
@@ -182,57 +172,22 @@ public class CalculatorBean implements Serializable
 
     public String getCalculation()
     {
-        return String.format("%d %s %d = ", rand1, "+", rand2);
+        return task.getCalculation().toString();
     }
 
-    private int getExpectedResult()
+    public Number getUserResult()
     {
-        return rand1 + rand2;
+        return userResult;
     }
 
-    public int getRand1()
+    public void setUserResult(final BigDecimal userResult)
     {
-        return rand1;
-    }
-
-    public void setRand1(int rand1)
-    {
-        this.rand1 = rand1;
-    }
-
-    public int getRand2()
-    {
-        return rand2;
-    }
-
-    public void setRand2(int rand2)
-    {
-        this.rand2 = rand2;
-    }
-
-    public int getResult()
-    {
-        return result;
-    }
-
-    public void setResult(int result)
-    {
-        this.result = result;
+        this.userResult = userResult;
     }
 
     public boolean isShowTipps()
     {
         return showTipps;
-    }
-
-    public int getSolvedCounter()
-    {
-        return solvedCounter;
-    }
-
-    public int getSolvedCounterWithTipps()
-    {
-        return solvedCounterWithTipps;
     }
 
     public List<User> getUsers()
@@ -268,6 +223,24 @@ public class CalculatorBean implements Serializable
     public User getCurrentUser()
     {
         return currentUser;
+    }
+
+    private String createSolvedMessage(final boolean correct)
+    {
+
+        if(correct)
+        {
+            return String.format(
+                    "Dein Ergebnis ist richtig {0} %s </br> Weiter zur nächsten Aufgabe",
+                    Icons.getSmileO());
+        }
+        else
+        {
+            return String.format(
+                    "Das ist leider nicht richtig {0} %s </br>Versuche es nochmal oder hole Dir einen Tipp",
+                    Icons.getMehO());
+        }
+
     }
 
 }

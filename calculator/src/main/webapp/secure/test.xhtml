@@ -20,16 +20,11 @@
 	<h:form prependId="false">
 		<f:passThroughAttribute name="autocomplete" value="off" />
 		<h:panelGrid columns="1">
-			<h:outputText
-				value="richtig gelöste Aufgaben: #{calculatorBean.solvedCounter}" />
-			<h:outputText
-				value="davon mit Tipps gelöst: #{calculatorBean.solvedCounterWithTipps}" />
 			<h:outputText value="Hallo #{calculatorBean.currentUser.username}" />
 			<h:outputLabel
 				value="Bester User bisher: #{calculatorBean.bestUser.username}" />
 			<h:outputText
 				value="Highscore: #{calculatorBean.bestUser.correctAnswers}" />
-
 		</h:panelGrid>
 
 		<h:panelGrid columns="2" styleClass="col-100"
@@ -52,8 +47,8 @@
 				<h:outputText id="out_calculation"
 					value="#{calculatorBean.calculation}" />
 
-				<h:inputText id="input_result" value="#{calculatorBean.result}"
-					required="true" tabindex="2"
+				<h:inputText id="input_result" value="#{calculatorBean.userResult}"
+					required="true" tabindex="2" converter="javax.faces.BigDecimal"
 					requiredMessage="Dein Ergebnis darf nicht leer sein">
 					<f:ajax event="keyup" render="msg_panel_group" />
 				</h:inputText>

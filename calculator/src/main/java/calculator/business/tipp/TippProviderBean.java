@@ -5,43 +5,50 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.ejb.Local;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import javax.inject.Inject;
 
 import calculator.business.calculation.CalculationService;
 
 @Stateful
-@Local(TippGenerator.class)
-public class TippGeneratorBean implements TippGenerator
+public class TippProviderBean
 {
 
-    @Inject
+    @EJB
     private CalculationService calculationService;
 
     private List<String> tipps = new ArrayList<>();
     private int tippIndex = 0;
     private int tippCount = 0;
 
-    @Override
     public void generateTipps(final int expected)
     {
 
         reset();
 
-        final int expectedLength = String.valueOf(expected).length();
         final boolean isOdd = expected % 2 == 1;
         final boolean isPrime = calculationService.isPrime(expected);
+        boolean isNegative = expected < 0;
 
-        final String first = String.format("Die erste Ziffer ist eine %s", String.valueOf(expected).charAt(0));
-        final String last = String.format(
-                "Die letzte Ziffer ist eine %s",
-                String.valueOf(expected).charAt(expectedLength - 1));
+        int expectedLength = String.valueOf(expected).length();
+        char firstChar = String.valueOf(expected).charAt(0);
+        char lastChar = String.valueOf(expected).charAt(expectedLength - 1);
+
+        if(isNegative)
+        {
+            expectedLength -= 1;
+            firstChar = String.valueOf(expected).charAt(1);
+            lastChar = String.valueOf(expected).charAt(expectedLength);
+        }
+
+        final String first = String.format("Die erste Ziffer ist eine %s", firstChar);
+        final String last = String.format("Die letzte Ziffer ist eine %s", lastChar);
         final String length = String.format("Das Ergebnis ist eine Zahl mit %s Ziffern", expectedLength);
         final String odd = String.format("Das Ergebnis ist eine %s Zahl", isOdd ? "ungerade" : "gerade");
         final String prime = String.format("Das Ergebnis ist %s Primzahl", isPrime ? "eine" : "keine");
+        final String negative = isNegative ? "Die Zahl ist negativ" : "Die Zahl ist positiv";
 
-        Collections.addAll(tipps, first, last, length, odd, prime);
+        Collections.addAll(tipps, first, last, length, odd, prime, negative);
         Collections.shuffle(tipps);
 
         tippCount = tipps.size();
@@ -54,7 +61,6 @@ public class TippGeneratorBean implements TippGenerator
         tipps.clear();
     }
 
-    @Override
     public String getTipp()
     {
         final String tippFormat = "Tipp {0}: {1}";

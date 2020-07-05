@@ -19,7 +19,6 @@ public class NavigationBean implements Serializable
     @Inject
     private LoginBean login;
 
-
     public void navigateTo(final String to)
     {
         try

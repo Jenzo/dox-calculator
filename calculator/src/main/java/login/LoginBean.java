@@ -24,6 +24,7 @@ public class LoginBean implements Serializable
 
     @EJB
     private UserModel model;
+
     private String username;
 
     public void login()

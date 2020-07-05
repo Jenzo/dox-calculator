@@ -1,45 +1,41 @@
 package calculator.business.calculation;
 
-import javax.ejb.Stateless;
+import java.math.BigDecimal;
 
-import calculator.ui.messages.Icons;
+import javax.ejb.Stateless;
+import javax.ws.rs.NotSupportedException;
+
+import calculator.model.calculation.Calculation;
 
 @Stateless
 public class CalculationService
 {
 
-    public CalculationUIResult solve(final CalculationRequest request, final Object submittedResult)
+    public BigDecimal solve(final Calculation calculation)
     {
 
-        final CalculationResult calResult = solve(request);
+        final BigDecimal op1 = calculation.getOperand1();
+        final BigDecimal op2 = calculation.getOperand2();
 
-        boolean correct = calResult.getResult() == submittedResult;
-        final String message = createMessage(correct);
-
-        return new CalculationUIResult(message, correct);
-    }
-
-    public CalculationResult solve(final CalculationRequest request)
-    {
-        switch(request.getOperation())
+        switch(calculation.getOperation())
         {
         case ADD:
-            return solveAdd(request);
+            return op1.add(op2);
+        case SUB:
+            return op1.subtract(op2);
+        case MUL:
+            return op1.multiply(op2);
+        case DIV:
+            return op1.divide(op2);
         default:
-            return new CalculationResult(request, null);
+            throw new NotSupportedException();
         }
-    }
 
-    private CalculationResult solveAdd(CalculationRequest r)
-    {
-        int op1 = (int)r.getOperand1();
-        int op2 = (int)r.getOperand2();
-        return new CalculationResult(r, op1 + op2);
     }
 
     public boolean isPrime(int n)
     {
-        if(n == 0 || n == 1)
+        if(n <= 0 || n == 1)
         {
             return false;
         }
@@ -55,24 +51,6 @@ public class CalculationService
         }
 
         return !isPrime;
-
-    }
-
-    private String createMessage(final boolean correct)
-    {
-
-        if(correct)
-        {
-            return String.format(
-                    "Dein Ergebnis ist richtig {0} %s </br> Weiter zur nächsten Aufgabe",
-                    Icons.getSmileO());
-        }
-        else
-        {
-            return String.format(
-                    "Das ist leider nicht richtig {0} %s </br>Versuche es nochmal oder hole Dir einen Tipp",
-                    Icons.getMehO());
-        }
 
     }
 
