@@ -5,7 +5,7 @@
 	xmlns:o="http://omnifaces.org/ui">
 
 <h:head>
-	<title>Calculator</title>
+	<title>Test</title>
 	<h:outputStylesheet name="style.css" library="css" />
 	<h:outputStylesheet library="webjars"
 		name="font-awesome/4.7.0/css/font-awesome.min-jsf.css" />
@@ -13,27 +13,16 @@
 <h:body>
 	<h1>Calculator Test</h1>
 
-	<h:form>
-		<h:commandButton action="#{navigationBean.logout()}" value="logout" />
-	</h:form>
 
 	<h:form prependId="false">
 		<f:passThroughAttribute name="autocomplete" value="off" />
-		<h:panelGrid columns="1">
-			<h:outputText value="Hallo #{calculatorBean.currentUser.username}" />
-			<h:outputLabel
-				value="Bester User bisher: #{calculatorBean.bestUser.username}" />
-			<h:outputText
-				value="Highscore: #{calculatorBean.bestUser.correctAnswers}" />
-		</h:panelGrid>
-
 		<h:panelGrid columns="2" styleClass="col-100"
 			columnClasses="col-35 text-right,col-50 text-left" cellspacing="4px"
 			cellpadding="4px" rowClasses="row-40, row-70, row-40">
 
 			<h:panelGroup>
 				<h:outputLabel value="Username:" />
-				<h:inputText value="#{calculatorBean.username}" required="true"
+				<h:inputText value="#{testBean.calculation.username}" required="true"
 					requiredMessage="Bitte trage deinen Usernamen ein"
 					id="input_username" tabindex="1">
 					<f:ajax event="keyup" render="msg_input_username" />
@@ -45,10 +34,10 @@
 
 			<h:panelGroup>
 				<h:outputText id="out_calculation"
-					value="#{calculatorBean.calculation}" />
+					value="#{testBean.calculationString}" />
 
-				<h:inputText id="input_result" value="#{calculatorBean.userResult}"
-					required="true" tabindex="2" converter="javax.faces.BigDecimal"
+				<h:inputText id="input_result" value="#{testBean.calculation.userResult}"
+					required="true" tabindex="2"
 					requiredMessage="Dein Ergebnis darf nicht leer sein">
 					<f:ajax event="keyup" render="msg_panel_group" />
 				</h:inputText>
@@ -60,38 +49,38 @@
 					for="input_result" escape="false" infoClass="success"
 					errorClass="error" warnClass="warn" />
 
-				<h:outputText id="tipp" value="#{calculatorBean.tipp}"
-					escape="false" rendered="#{calculatorBean.showTipps}" />
+				<h:outputText id="tipp" value="#{testBean.tipp}"
+					escape="false" rendered="#{testBean.showTipps}" />
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<h:commandButton value="zeige User"
-					action="#{calculatorBean.onShowUsers()}">
+					action="#{testBean.onShowUsers()}">
 					<f:ajax execute="@this" render="tableUser" />
 				</h:commandButton>
 				<h:commandButton value="hole Tipp"
-					action="#{calculatorBean.onGetTipp()}"
-					disabled="#{calculatorBean.solved}">
+					action="#{testBean.onGetTipp()}"
+					disabled="#{testBean.solved}">
 					<f:ajax execute="@this" render="msg_panel_group" />
 				</h:commandButton>
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<h:commandButton value="Einreichen" tabindex="3"
-					action="#{calculatorBean.onSubmit()}"
-					disabled="#{calculatorBean.solved}">
+					action="#{testBean.onSubmit()}"
+					disabled="#{testBean.solved}">
 					<f:ajax execute="@form" render="@form" />
 				</h:commandButton>
 
 				<h:commandButton value="nächste Aufgabe" tabindex="4"
-					action="#{calculatorBean.onGetNext()}">
+					action="#{testBean.onGetNext()}">
 					<f:ajax execute="@this" render="@form" />
 				</h:commandButton>
 			</h:panelGroup>
 			<h:panelGroup id="tableUser" styleClass="right">
-				<h:dataTable value="#{calculatorBean.users}" var="u"
+				<h:dataTable value="#{testBean.users}" var="u"
 					title="Liste bisheriger User"
-					rendered="#{calculatorBean.showUsers}" styleClass="users-table"
+					rendered="#{testBean.showUsers}" styleClass="users-table"
 					headerClass="users-table-header"
 					rowClasses="users-table-odd-row, users-table-even-row"
 					columnClasses="text-center, text-center, text-right">
@@ -99,11 +88,6 @@
 					<h:column>
 						<f:facet name="header">Username</f:facet>
 						<h:outputText value="#{u.username}" />
-					</h:column>
-
-					<h:column>
-						<f:facet name="header">korrekte Antworten</f:facet>
-						<h:outputText value="#{u.correctAnswers}" />
 					</h:column>
 
 					<h:column>

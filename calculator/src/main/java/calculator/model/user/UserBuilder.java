@@ -4,12 +4,17 @@ import java.util.Objects;
 
 public class UserBuilder
 {
-
-    private User user = new User();
+    public static UserBuilder newBuilder()
+    {
+        return new UserBuilder();
+    }
 
     private UserBuilder()
     {
     }
+
+    private User user = new User();
+
 
     public UserBuilder withUsername(final String username)
     {
@@ -23,18 +28,6 @@ public class UserBuilder
         return this;
     }
 
-    public UserBuilder withCorrectAnswers(final int correctAnswers)
-    {
-        user.setCorrectAnswers(correctAnswers);
-        return this;
-    }
-
-    public UserBuilder withEmail(final String email)
-    {
-        user.setEmail(email);
-        return this;
-    }
-
     public User build()
     {
 
@@ -44,8 +37,4 @@ public class UserBuilder
         return user;
     }
 
-    public static UserBuilder newBuilder()
-    {
-        return new UserBuilder();
-    }
 }

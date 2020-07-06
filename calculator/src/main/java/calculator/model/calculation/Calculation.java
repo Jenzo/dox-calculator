@@ -1,70 +1,111 @@
 package calculator.model.calculation;
 
-import java.math.BigDecimal;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+
+@NamedQuery(name = "Calculation.findAll", query = "SELECT c FROM Calculation c")
+@Entity
 public class Calculation
 {
-    private BigDecimal operand1;
-    private BigDecimal operand2;
-    private BigDecimal result;
-    private Operation operation;
 
-    public Calculation()
+    public static final String findAll = "Calculation.findAll";
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private int operand1;
+
+    private int operand2;
+
+    @Column(nullable = false)
+    private int userResult;
+
+    @Column(nullable = false)
+    private String username;
+
+    private boolean correctSolved;
+
+    private Date submittedAt;
+
+    public long getId()
     {
-
+        return id;
     }
 
-    public Calculation(final BigDecimal operand1, final BigDecimal operand2, final Operation operation)
+    public void setId(long id)
     {
-        this.operand1 = operand1;
-        this.operand2 = operand2;
-        this.operation = operation;
+        this.id = id;
     }
 
-    @Override
-    public String toString()
-    {
-        return String.format("%s %s %s = ", operand1, operation.getSymbol(), operand2);
-    }
-
-    public BigDecimal getOperand1()
+    public int getOperand1()
     {
         return operand1;
     }
 
-    public void setOperand1(BigDecimal operand1)
+    public void setOperand1(int operand1)
     {
         this.operand1 = operand1;
     }
 
-    public BigDecimal getOperand2()
+    public int getOperand2()
     {
         return operand2;
     }
 
-    public void setOperand2(BigDecimal operand2)
+    public void setOperand2(int operand2)
     {
         this.operand2 = operand2;
     }
 
-    public Operation getOperation()
+    public int getUserResult()
     {
-        return operation;
+        return userResult;
     }
 
-    public void setOperation(Operation operation)
+    public void setUserResult(int userResult)
     {
-        this.operation = operation;
+        this.userResult = userResult;
     }
 
-    public BigDecimal getResult()
+    public String getUsername()
     {
-        return result;
+        return username;
     }
 
-    public void setResult(BigDecimal result)
+    public void setUsername(String username)
     {
-        this.result = result;
+        this.username = username;
     }
 
+    public String getCalculationString()
+    {
+        return String.format("%s %s %s = ", operand1, Operation.ADD.getSymbol(), operand2);
+    }
+
+    public boolean isCorrectSolved()
+    {
+        return correctSolved;
+    }
+
+    public void setCorrectSolved(boolean correctSolved)
+    {
+        this.correctSolved = correctSolved;
+    }
+
+    public Date getSubmittedAt()
+    {
+        return submittedAt;
+    }
+
+    public void setSubmittedAt(Date submittedAt)
+    {
+        this.submittedAt = submittedAt;
+    }
 }

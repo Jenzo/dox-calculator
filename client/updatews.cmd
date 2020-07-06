@@ -1,0 +1,1 @@
+wsimport -keep  http://localhost:8080/WebServiceCalculation/WebServiceCalculation?wsdl -d src/main/java

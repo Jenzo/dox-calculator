@@ -5,10 +5,7 @@ import java.io.Serializable;
 
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
-
-import login.LoginBean;
 
 @Named
 @ViewScoped
@@ -16,10 +13,7 @@ public class NavigationBean implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private LoginBean login;
-
-    public void navigateTo(final String to)
+    private void navigateTo(final String to)
     {
         try
         {
@@ -41,9 +35,9 @@ public class NavigationBean implements Serializable
         navigateTo(Pages.getTestPath());
     }
 
-    public String logout()
+    public void navigationToCalculations()
     {
-        return login.logout();
+        navigateTo(Pages.getCalculationsPath());
     }
 
 }

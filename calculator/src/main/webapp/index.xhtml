@@ -12,7 +12,10 @@
 	<h1>INDEX</h1>
 
 	<h:form>
-		<h:commandButton value="Aufgaben" action="#{navigationBean.navigateToTest}" />
+		<h:commandButton action="#{navigationBean.navigateToTest}"
+			value="zum Test" />
+		<h:commandButton action="#{navigationBean.navigationToCalculations()}"
+			value="zu den Einreichungen" />
 	</h:form>
 
 </h:body>

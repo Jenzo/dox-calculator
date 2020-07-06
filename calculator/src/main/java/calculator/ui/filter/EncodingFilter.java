@@ -1,4 +1,4 @@
-package calculator.filter;
+package calculator.ui.filter;
 
 import java.io.IOException;
 

@@ -42,15 +42,4 @@ public class UserApi
         return users.isEmpty() ? null : users.get(0);
     }
 
-
-    public List<User> findUsersBySolved(final boolean solved)
-    {
-        return em.createNamedQuery(User.findAllBySolved, User.class).setParameter("solved", solved).getResultList();
-    }
-
-    public User findByMostCorrectAnswered()
-    {
-        List<User> users = em.createNamedQuery(User.findByMostCorrectAnswered, User.class).getResultList();
-        return users.isEmpty() ? null : users.get(0);
-    }
 }

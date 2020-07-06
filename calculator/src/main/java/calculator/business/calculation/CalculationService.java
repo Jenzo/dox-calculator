@@ -1,36 +1,56 @@
 package calculator.business.calculation;
 
-import java.math.BigDecimal;
+import java.util.Date;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.NotSupportedException;
 
 import calculator.model.calculation.Calculation;
+import calculator.model.calculation.CalculationApi;
+import calculator.model.calculation.Operation;
 
 @Stateless
 public class CalculationService
 {
 
-    public BigDecimal solve(final Calculation calculation)
+    @EJB
+    private CalculationApi calculationApi;
+
+    public Calculation solve(final Calculation calculation)
     {
+        final int expectedResult = solve(calculation.getOperand1(), calculation.getOperand2(), Operation.ADD);
+        final boolean solved = expectedResult == calculation.getUserResult();
 
-        final BigDecimal op1 = calculation.getOperand1();
-        final BigDecimal op2 = calculation.getOperand2();
+        calculation.setCorrectSolved(solved);
+        calculation.setSubmittedAt(new Date());
+        calculationApi.persist(calculation);
 
-        switch(calculation.getOperation())
+        return calculation;
+    }
+
+    private int solve(int operand1, int operand2, Operation operation)
+    {
+        switch(operation)
         {
         case ADD:
-            return op1.add(op2);
+            return solveAdd(operand1, operand2);
         case SUB:
-            return op1.subtract(op2);
-        case MUL:
-            return op1.multiply(op2);
-        case DIV:
-            return op1.divide(op2);
+            return solveSub(operand1, operand2);
         default:
-            throw new NotSupportedException();
+            final String errorMessage = String.format("Operation %s is not supported", operation);
+            throw new NotSupportedException(errorMessage);
         }
+    }
 
+    private int solveAdd(int operand1, int operand2)
+    {
+        return operand1 + operand2;
+    }
+
+    private int solveSub(int operand1, int operand2)
+    {
+        return operand1 - operand2;
     }
 
     public boolean isPrime(int n)
