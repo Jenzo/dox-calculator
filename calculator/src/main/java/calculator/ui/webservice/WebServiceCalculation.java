@@ -34,17 +34,18 @@ public class WebServiceCalculation
     public Calculation solveCalculation(@WebParam(name = "calculation") Calculation calculation)
             throws CalculationServiceException
     {
-        calculationService.solve(calculation);
-        
         guard.setReceived(calculation);
-        if(!guard.areEqual())
+        if(guard.valid())
+        {
+            return calculationService.solve(calculation);
+        }
+        else
         {
             throw new CalculationServiceException(
                     "Möglicher Täuschungsversuch!! "
                             + "Die Aufgaben stimmen nicht überein. Die Operanden sind unterschiedlich.");
         }
 
-        return calculation;
     }
 
 }

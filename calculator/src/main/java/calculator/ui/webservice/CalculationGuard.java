@@ -11,7 +11,7 @@ public class CalculationGuard
     private Calculation created;
     private Calculation received;
 
-    public boolean areEqual()
+    public boolean valid()
     {
         return created.getOperand1() == received.getOperand1() && created.getOperand2() == received.getOperand2();
     }

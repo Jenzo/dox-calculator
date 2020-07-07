@@ -22,11 +22,19 @@ public class Client
         System.out.println(output);
 
         calculationTO.setUsername("Bernd");
-        int result = operand1 + operand2;
+        int result = -1;
 
+        // cheat modus
+        boolean cheat = false;
+        if(cheat)
+        {
+            int op1 = 12;
+            int op2 = 23;
+            calculationTO.setOperand1(op1);
+            calculationTO.setOperand2(op2);
+            result = op1 + op2;
+        }
         calculationTO.setUserResult(result);
-
-//        calculationTO.setOperand1(12);
 
         output = String.format("eingetragenes Ergebnis: %s", calculationTO.getUserResult());
         System.out.println(output);

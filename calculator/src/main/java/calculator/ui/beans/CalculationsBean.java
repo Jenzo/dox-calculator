@@ -1,7 +1,10 @@
 package calculator.ui.beans;
 
+import static calculator.ui.StyleConstants.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,16 +26,31 @@ public class CalculationsBean implements Serializable
     private CalculationApi calculationApi;
 
     private transient List<Calculation> calculations = new ArrayList<>();
+    private transient List<String> columnClasses = new ArrayList<>();
 
     @PostConstruct
     public void onConstruct()
     {
         calculations = calculationApi.findAll();
+        Collections.addAll(
+                columnClasses,
+                COL_CLASS_CENTER,
+                COL_CLASS_CENTER,
+                COL_CLASS_CENTER,
+                COL_CLASS_CENTER,
+                COL_CLASS_CENTER,
+                COL_CLASS_CENTER);
     }
 
     public List<Calculation> getCalculations()
     {
         return calculations;
+    }
+
+    public String getColumnClasses()
+    {
+        final String classes = columnClasses.toString();
+        return classes.substring(1, classes.length() - 1);
     }
 
 }
