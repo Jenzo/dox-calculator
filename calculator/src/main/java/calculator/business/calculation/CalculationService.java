@@ -6,25 +6,41 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.NotSupportedException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import calculator.model.calculation.Calculation;
 import calculator.model.calculation.CalculationApi;
 import calculator.model.calculation.Operation;
+import calculator.model.user.User;
+import calculator.model.user.UserApi;
+import calculator.model.user.UserBuilder;
 
 @Stateless
 public class CalculationService
 {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CalculationService.class);
+
+    @EJB
+    private UserApi userApi;
 
     @EJB
     private CalculationApi calculationApi;
 
     public Calculation solve(final Calculation calculation)
     {
+        LOG.info("CalculationService angefragt: {}", calculation);
         final int expectedResult = solve(calculation.getOperand1(), calculation.getOperand2(), Operation.ADD);
         final boolean solved = expectedResult == calculation.getUserResult();
 
         calculation.setCorrectSolved(solved);
         calculation.setSubmittedAt(new Date());
         calculationApi.persist(calculation);
+
+        final User user = UserBuilder.newBuilder().withUsername(calculation.getUsername()).withSolved(
+                calculation.isCorrectSolved()).build();
+        userApi.persist(user);
 
         return calculation;
     }

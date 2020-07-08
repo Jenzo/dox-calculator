@@ -15,7 +15,6 @@ import calculator.business.calculation.CalculationService;
 import calculator.business.tipp.TippProviderBean;
 import calculator.model.calculation.Calculation;
 import calculator.model.user.User;
-import calculator.model.user.UserBuilder;
 import calculator.model.user.UserModel;
 import calculator.ui.messages.Icons;
 import calculator.ui.messages.Messages;
@@ -34,7 +33,7 @@ public class TestBean implements Serializable
     @EJB
     private CalculationService calculationService;
 
-    private Calculation calculation;
+    private transient Calculation calculation;
     private boolean solved;
 
     /* TIPPS */
@@ -92,26 +91,40 @@ public class TestBean implements Serializable
 
     public void onSubmit()
     {
-        final boolean correctSolved = calculationService.solve(calculation).isCorrectSolved();
-        final String msg = MessageFormat.format(createSolvedMessage(correctSolved), calculation.getUsername());
+        solved = calculationService.solve(calculation).isCorrectSolved();
+        createUIMessage();
+        resetUser();
+        setShowTipps(false);
+    }
 
-        if(correctSolved)
+    private void createUIMessage()
+    {
+        final String msg = MessageFormat.format(createSolvedMessage(), calculation.getUsername());
+        if(solved)
         {
-            solved = true;
             Messages.success("input_result", msg);
         }
         else
         {
-            solved = false;
             Messages.error("input_result", msg);
         }
 
-        final User user = UserBuilder.newBuilder().withUsername(calculation.getUsername()).build();
-        model.getUserApi().persist(user);
+    }
 
-        resetUser();
-        setShowTipps(false);
-
+    private String createSolvedMessage()
+    {
+        if(solved)
+        {
+            return String.format(
+                    "Dein Ergebnis ist richtig {0} %s </br> Weiter zur nächsten Aufgabe",
+                    Icons.getSmileO());
+        }
+        else
+        {
+            return String.format(
+                    "Das ist leider nicht richtig {0} %s </br>Versuche es nochmal oder hole Dir einen Tipp",
+                    Icons.getMehO());
+        }
     }
 
     public void onGetTipp()
@@ -179,24 +192,6 @@ public class TestBean implements Serializable
     public void setShowTipps(boolean showTipps)
     {
         this.showTipps = showTipps;
-    }
-
-    private String createSolvedMessage(final boolean correct)
-    {
-
-        if(correct)
-        {
-            return String.format(
-                    "Dein Ergebnis ist richtig {0} %s </br> Weiter zur nächsten Aufgabe",
-                    Icons.getSmileO());
-        }
-        else
-        {
-            return String.format(
-                    "Das ist leider nicht richtig {0} %s </br>Versuche es nochmal oder hole Dir einen Tipp",
-                    Icons.getMehO());
-        }
-
     }
 
     public void setCalculation(Calculation calculation)

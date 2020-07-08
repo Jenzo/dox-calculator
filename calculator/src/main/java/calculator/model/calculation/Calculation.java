@@ -108,4 +108,24 @@ public class Calculation
     {
         this.submittedAt = submittedAt;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Calculation [id="
+                + id
+                + ", operand1="
+                + operand1
+                + ", operand2="
+                + operand2
+                + ", userResult="
+                + userResult
+                + ", username="
+                + username
+                + ", correctSolved="
+                + correctSolved
+                + ", submittedAt="
+                + submittedAt
+                + "]";
+    }
 }

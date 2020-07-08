@@ -64,21 +64,22 @@
 					</h:panelGroup>
 
 					<h:panelGroup>
+						<h:commandButton value="nächste Aufgabe" tabindex="4"
+							action="#{testBean.onGetNext()}">
+							<f:ajax execute="@this" render="@form" />
+						</h:commandButton>
+
 						<h:commandButton value="Einreichen" tabindex="3"
 							action="#{testBean.onSubmit()}" disabled="#{testBean.solved}">
 							<f:ajax execute="@form" render="@form" />
 						</h:commandButton>
 
-						<h:commandButton value="nächste Aufgabe" tabindex="4"
-							action="#{testBean.onGetNext()}">
-							<f:ajax execute="@this" render="@form" />
-						</h:commandButton>
 					</h:panelGroup>
 					<h:panelGroup id="tableUser" styleClass="right">
 						<h:dataTable value="#{testBean.users}" var="u"
 							title="Liste bisheriger User" rendered="#{testBean.showUsers}"
-							styleClass="users-table" headerClass="users-table-header"
-							rowClasses="users-table-odd-row, users-table-even-row"
+							styleClass="table" headerClass="table-header"
+							rowClasses="table-odd-row, table-even-row"
 							columnClasses="text-center, text-right">
 
 							<h:column>

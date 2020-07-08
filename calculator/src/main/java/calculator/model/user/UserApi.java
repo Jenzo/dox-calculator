@@ -6,9 +6,14 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Stateless
 public class UserApi
 {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(UserApi.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -16,6 +21,8 @@ public class UserApi
     public void persist(final User user)
     {
         em.persist(user);
+        LOG.info("Objekt persistiert: {}", user);
+        
     }
 
     public void merge(final User user)

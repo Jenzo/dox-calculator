@@ -1,5 +1,8 @@
 package client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import calculator.ui.webservice.Calculation;
 import calculator.ui.webservice.CalculationServiceException_Exception;
 import calculator.ui.webservice.WebServiceCalculation;
@@ -7,6 +10,9 @@ import calculator.ui.webservice.WebServiceCalculation_Service;
 
 public class Client
 {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Client.class);
+    private static final boolean CHEATMODE = true;
 
     public static void main(String[] args)
     {
@@ -19,14 +25,13 @@ public class Client
         int operand2 = calculationTO.getOperand2();
 
         String output = String.format("empfangene Aufgabe: %s + %s = ?", operand1, operand2);
-        System.out.println(output);
+        LOG.info(output);
 
         calculationTO.setUsername("Bernd");
         int result = -1;
 
         // cheat modus
-        boolean cheat = false;
-        if(cheat)
+        if(CHEATMODE)
         {
             int op1 = 12;
             int op2 = 23;
@@ -37,18 +42,18 @@ public class Client
         calculationTO.setUserResult(result);
 
         output = String.format("eingetragenes Ergebnis: %s", calculationTO.getUserResult());
-        System.out.println(output);
+        LOG.info(output);
 
-        System.out.println("sende und empfange gelöste Aufgabe zurück...");
+        LOG.info("sende und empfange gelöste Aufgabe zurück...");
 
         try
         {
             calculationTO = calculationService.solveCalculation(calculationTO);
-            System.out.println("gelöste Aufgabe empfangen");
+            LOG.info("gelöste Aufgabe empfangen");
         }
         catch(CalculationServiceException_Exception e)
         {
-            System.err.println(e.getMessage() + "\n");
+            LOG.error(e.getMessage());
         }
 
         output = String.format(
@@ -56,8 +61,14 @@ public class Client
                 calculationTO.getUsername(),
                 calculationTO.isCorrectSolved() ? "richtig" : "falsch");
 
-        System.out.println(output);
-
+        if(calculationTO.isCorrectSolved())
+        {
+            LOG.info(output);
+        }
+        else
+        {
+            LOG.warn(output);
+        }
     }
 
 }
