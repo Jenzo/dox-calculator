@@ -1,5 +1,7 @@
 package client;
 
+import java.text.MessageFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +26,7 @@ public class Client
         int operand1 = calculationTO.getOperand1();
         int operand2 = calculationTO.getOperand2();
 
-        String output = String.format("empfangene Aufgabe: %s + %s = ?", operand1, operand2);
+        String output = MessageFormat.format("empfangene Aufgabe: {0} + {1} = ?", operand1, operand2);
         LOG.info(output);
 
         calculationTO.setUsername("Bernd");
@@ -38,13 +40,14 @@ public class Client
             calculationTO.setOperand1(op1);
             calculationTO.setOperand2(op2);
             result = op1 + op2;
+            LOG.info("Cheatmodus an. Neue Aufgabe {} + {} = {}", op1, op2, result);
         }
         calculationTO.setUserResult(result);
 
         output = String.format("eingetragenes Ergebnis: %s", calculationTO.getUserResult());
         LOG.info(output);
 
-        LOG.info("sende und empfange gelöste Aufgabe zurück...");
+        LOG.info("sende und empfange gelöste Aufgabe...");
 
         try
         {
@@ -53,11 +56,11 @@ public class Client
         }
         catch(CalculationServiceException_Exception e)
         {
-            LOG.error(e.getMessage());
+            LOG.error("Fehler bei Einreichung. Grund: {}", e.getMessage());
         }
 
-        output = String.format(
-                "Vom User %s errechnetes Ergebnis ist %s",
+        output = MessageFormat.format(
+                "Vom User {0} errechnetes Ergebnis ist {1}",
                 calculationTO.getUsername(),
                 calculationTO.isCorrectSolved() ? "richtig" : "falsch");
 
