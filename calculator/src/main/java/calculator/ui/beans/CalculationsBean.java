@@ -1,6 +1,6 @@
 package calculator.ui.beans;
 
-import static calculator.ui.StyleConstants.*;
+import static calculator.ui.util.StyleConstants.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;

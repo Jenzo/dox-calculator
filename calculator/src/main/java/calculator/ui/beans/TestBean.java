@@ -16,8 +16,8 @@ import calculator.business.tipp.TippProviderBean;
 import calculator.model.calculation.Calculation;
 import calculator.model.user.User;
 import calculator.model.user.UserModel;
-import calculator.ui.messages.Icons;
-import calculator.ui.messages.Messages;
+import calculator.ui.util.messages.Icons;
+import calculator.ui.util.messages.Messages;
 
 @Named
 @ViewScoped

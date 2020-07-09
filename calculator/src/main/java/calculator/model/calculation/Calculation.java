@@ -1,6 +1,7 @@
 package calculator.model.calculation;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +34,8 @@ public class Calculation
     private boolean correctSolved;
 
     private Date submittedAt;
+
+    private UUID uuid;
 
     public long getId()
     {
@@ -127,5 +130,15 @@ public class Calculation
                 + ", submittedAt="
                 + submittedAt
                 + "]";
+    }
+
+    public UUID getUuid()
+    {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid)
+    {
+        this.uuid = uuid;
     }
 }

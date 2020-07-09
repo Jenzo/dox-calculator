@@ -1,6 +1,7 @@
 package calculator.model.calculation;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class CalculationBuilder
 {
@@ -31,6 +32,7 @@ public class CalculationBuilder
     {
         calculation.setOperand1(operand1);
         calculation.setOperand2(operand2);
+        calculation.setUuid(UUID.randomUUID());
 
         return calculation;
     }

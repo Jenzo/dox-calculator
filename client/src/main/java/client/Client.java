@@ -5,16 +5,16 @@ import java.text.MessageFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import calculator.ui.webservice.Calculation;
-import calculator.ui.webservice.CalculationServiceException_Exception;
-import calculator.ui.webservice.WebServiceCalculation;
-import calculator.ui.webservice.WebServiceCalculation_Service;
+import calculator.business.calculation.webservice.Calculation;
+import calculator.business.calculation.webservice.CalculationWebServiceException_Exception;
+import calculator.business.calculation.webservice.WebServiceCalculation;
+import calculator.business.calculation.webservice.WebServiceCalculation_Service;
 
 public class Client
 {
 
     private static final Logger LOG = LoggerFactory.getLogger(Client.class);
-    private static final boolean CHEATMODE = true;
+    private static final boolean CHEATMODE = false;
 
     public static void main(String[] args)
     {
@@ -29,7 +29,7 @@ public class Client
         String output = MessageFormat.format("empfangene Aufgabe: {0} + {1} = ?", operand1, operand2);
         LOG.info(output);
 
-        calculationTO.setUsername("Bernd");
+        calculationTO.setUsername("Client");
         int result = -1;
 
         // cheat modus
@@ -54,7 +54,7 @@ public class Client
             calculationTO = calculationService.solveCalculation(calculationTO);
             LOG.info("gelöste Aufgabe empfangen");
         }
-        catch(CalculationServiceException_Exception e)
+        catch(CalculationWebServiceException_Exception e)
         {
             LOG.error("Fehler bei Einreichung. Grund: {}", e.getMessage());
         }
