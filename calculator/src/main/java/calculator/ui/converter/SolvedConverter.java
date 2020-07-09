@@ -20,7 +20,7 @@ public class SolvedConverter implements Converter
     public String getAsString(FacesContext context, UIComponent component, Object solved)
     {
         boolean b = ((Boolean)solved).booleanValue();
-        return b ? "gelöst" : "nicht gelöst";
+        return b ? "richtig" : "falsch";
     }
 
 }

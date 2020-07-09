@@ -14,7 +14,7 @@
 			<h:form prependId="false">
 				<f:passThroughAttribute name="autocomplete" value="off" />
 				<h:panelGrid columns="2" styleClass="col-100"
-					columnClasses="col-25 text-right,col-60 text-left"
+					columnClasses="col-50 text-right,col-50 text-left"
 					cellspacing="4px" cellpadding="4px"
 					rowClasses="row-40, row-70, row-40">
 
@@ -75,12 +75,12 @@
 						</h:commandButton>
 
 					</h:panelGroup>
-					<h:panelGroup id="tableUser" styleClass="right">
+					<h:panelGroup id="tableUser" styleClass="col-100 right">
 						<h:dataTable value="#{testBean.users}" var="u"
-							title="Liste bisheriger User" rendered="#{testBean.showUsers}"
-							styleClass="table" headerClass="table-header"
-							rowClasses="table-odd-row, table-even-row"
-							columnClasses="text-center, text-right">
+							rendered="#{testBean.showUsers}" styleClass="table col-100"
+							headerClass="table-header"
+							columnClasses="text-center, text-center"
+							rowClasses="table-odd-row, table-even-row">
 
 							<h:column>
 								<f:facet name="header">Username</f:facet>

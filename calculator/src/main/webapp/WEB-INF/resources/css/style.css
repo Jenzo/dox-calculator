@@ -1,5 +1,6 @@
 :root { --blue: #66afe9; 
 		--disabled: #ccc;
+		--border: #aaa
 }
 
 * {
@@ -39,23 +40,25 @@ input[type=submit]:disabled {
 
 .table {
 	border-collapse: collapse;
+	border: 1px solid var(--border);
+	box-shadow: 2px 2px 2px #aaa;
 }
 
 .table-header {
 	text-align: center;
-	background: none repeat scroll 0 0 #E5E5E5;
-	border-bottom: 1px solid #BBBBBB;
+	background: none repeat scroll 0 0;
+	border-bottom: 1px solid var(--border);
 	padding: 16px;
 }
 
 .table-odd-row {
-	background: none repeat scroll 0 0 #FFFFFFF;
-	border-top: 1px solid #BBBBBB;
+	background: none repeat scroll 0 0 #fff;
+	border-top: 1px solid var(--border);
 }
 
 .table-even-row {
-	background: none repeat scroll 0 0 #F9F9F9;
-	border-top: 1px solid #BBBBBB;
+	background: none repeat scroll 0 0 #f9f9f9;
+	border-top: 1px solid var(--border);
 }
 
 .success {
@@ -73,6 +76,13 @@ input[type=submit]:disabled {
 #out_calculation {
 	display: inline-block;
 	text-align: right;
+}
+
+.header, .content {
+	border: 1px solid var(--border);
+	box-shadow: 5px 5px 5px var(--border);
+	padding: 10px;
+	margin: 0 25%;
 }
 
 .left {
