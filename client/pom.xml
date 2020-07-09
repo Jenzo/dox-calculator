@@ -37,62 +37,26 @@
 			<version>2.9.0</version>
 		</dependency>
 	</dependencies>
+
 	<build>
-	<finalName>calculator-client</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.0.0</version>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.6</version>
 				<executions>
 					<execution>
-						<id>update wsdl source</id>
-						<phase>generate-sources</phase>
 						<goals>
-							<goal>exec</goal>
+							<goal>wsimport</goal>
 						</goals>
+						<configuration>
+							<wsdlUrls>
+								<wsdlUrl>${wsdl.url}</wsdlUrl>
+							</wsdlUrls>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<executable>wsimport</executable>
-					<arguments>
-						<argument>-keep</argument>
-						<argument>${wsdl.url}</argument>
-						<argument>-d</argument>
-						<argument>${generated.files.dir}</argument>
-					</arguments>
-				</configuration>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>exec-maven-plugin</artifactId>
-										<versionRange>[1.2.1,)</versionRange>
-										<goals>
-											<goal>java</goal>
-											<goal>exec</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
-
 </project>

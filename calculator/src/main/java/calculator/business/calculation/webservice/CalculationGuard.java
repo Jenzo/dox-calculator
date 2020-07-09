@@ -1,35 +1,27 @@
 package calculator.business.calculation.webservice;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.ejb.Stateful;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import calculator.model.calculation.Calculation;
+import calculator.model.calculation.CalculationApi;
 
-@Stateful
+@Stateless
 public class CalculationGuard
 {
 
-    private Map<UUID, Calculation> cache = new HashMap<>();
+    @EJB
+    private CalculationApi calculationApi;
 
     public boolean isValid(final Calculation received)
     {
-        final Calculation found = cache.get(received.getUuid());
+        final Calculation found = calculationApi.findById(received.getId());
         if(found == null)
         {
             return false;
         }
-        cache.remove(received.getUuid());
 
         return found.getOperand1() == received.getOperand1() && found.getOperand2() == received.getOperand2();
-
-    }
-
-    public void setCreated(final Calculation created)
-    {
-        this.cache.put(created.getUuid(), created);
     }
 
 }

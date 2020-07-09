@@ -28,6 +28,7 @@ public class UserApi
     public void merge(final User user)
     {
         em.merge(user);
+        LOG.info("Objekt gemerged: {}", user);
     }
 
     public List<User> findAll()

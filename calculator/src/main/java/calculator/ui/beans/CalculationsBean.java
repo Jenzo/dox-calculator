@@ -31,7 +31,7 @@ public class CalculationsBean implements Serializable
     @PostConstruct
     public void onConstruct()
     {
-        calculations = calculationApi.findAll();
+        calculations = calculationApi.findByUsernameNotNull();
         Collections.addAll(
                 columnClasses,
                 COL_CLASS_CENTER,

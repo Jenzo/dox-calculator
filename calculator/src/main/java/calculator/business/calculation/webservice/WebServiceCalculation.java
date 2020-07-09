@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import calculator.business.calculation.CalculationService;
 import calculator.model.calculation.Calculation;
+import calculator.model.calculation.CalculationApi;
 import calculator.model.calculation.CalculationBuilder;
 
 @Stateless
@@ -18,10 +19,13 @@ import calculator.model.calculation.CalculationBuilder;
 public class WebServiceCalculation
 {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebServiceCalculation.class);
+    private Logger LOG = LoggerFactory.getLogger(WebServiceCalculation.class);
 
     @EJB
     private CalculationService calculationService;
+
+    @EJB
+    private CalculationApi calculationApi;
 
     @EJB
     private CalculationGuard guard;
@@ -30,8 +34,7 @@ public class WebServiceCalculation
     public Calculation getCalculation()
     {
         final Calculation created = CalculationBuilder.newBuilder().build();
-        guard.setCreated(created);
-
+        calculationApi.persist(created);
         return created;
     }
 
@@ -45,6 +48,7 @@ public class WebServiceCalculation
         }
         else
         {
+            calculationApi.remove(calculation);
             LOG.warn(
                     "Möglicher Täuschungsversuch!! Die Aufgaben stimmen nicht überein. Die Operanden sind unterschiedlich.");
             throw new CalculationWebServiceException(

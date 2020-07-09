@@ -1,9 +1,7 @@
 package calculator.model.calculation;
 
 import java.util.Date;
-import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,11 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
 @NamedQuery(name = "Calculation.findAll", query = "SELECT c FROM Calculation c")
+@NamedQuery(name = "Calculation.findById", query= "SELECT c FROM Calculation c where c.id =:id")
+@NamedQuery(name = "Calculation.findByUsernameNotNull" , query = "SELECT c FROM Calculation c where c.username IS NOT NULL")
 @Entity
 public class Calculation
 {
 
     public static final String findAll = "Calculation.findAll";
+    public static final String findById = "Calculation.findById";
+    public static final String findByUsernameNotNull = "Calculation.findByUsernameNotNull";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,17 +27,13 @@ public class Calculation
 
     private int operand2;
 
-    @Column(nullable = false)
     private int userResult;
 
-    @Column(nullable = false)
     private String username;
 
     private boolean correctSolved;
 
     private Date submittedAt;
-
-    private UUID uuid;
 
     public long getId()
     {
@@ -115,30 +113,6 @@ public class Calculation
     @Override
     public String toString()
     {
-        return "Calculation [id="
-                + id
-                + ", operand1="
-                + operand1
-                + ", operand2="
-                + operand2
-                + ", userResult="
-                + userResult
-                + ", username="
-                + username
-                + ", correctSolved="
-                + correctSolved
-                + ", submittedAt="
-                + submittedAt
-                + "]";
-    }
-
-    public UUID getUuid()
-    {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid)
-    {
-        this.uuid = uuid;
+        return "Calculation [operand1=" + operand1 + ", operand2=" + operand2 + "]";
     }
 }

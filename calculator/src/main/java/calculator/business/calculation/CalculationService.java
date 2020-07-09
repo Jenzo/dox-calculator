@@ -36,10 +36,9 @@ public class CalculationService
 
         calculation.setCorrectSolved(solved);
         calculation.setSubmittedAt(new Date());
-        calculationApi.persist(calculation);
+        calculationApi.merge(calculation);
 
-        final User user = UserBuilder.newBuilder().withUsername(calculation.getUsername()).withSolved(
-                calculation.isCorrectSolved()).build();
+        final User user = UserBuilder.newBuilder().withUsername(calculation.getUsername()).withSolved(solved).build();
         userApi.persist(user);
 
         return calculation;

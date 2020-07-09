@@ -24,6 +24,31 @@ public class CalculationApi
         LOG.info("Objekt persistiert {}", calculation);
     }
 
+    public void merge(final Calculation calculation)
+    {
+        em.merge(calculation);
+        LOG.info("Objekt gemerged {}", calculation);
+    }
+
+    public void remove(final Calculation calculation)
+    {
+        em.remove(em.contains(calculation) ? calculation : em.merge(calculation));
+        LOG.info("Objekt gelöscht {}", calculation);
+    }
+
+    public Calculation findById(final long id)
+    {
+        List<Calculation> calculations = em.createNamedQuery(Calculation.findById, Calculation.class).setParameter(
+                "id",
+                id).getResultList();
+        return calculations.isEmpty() ? null : calculations.get(0);
+    }
+
+    public List<Calculation> findByUsernameNotNull()
+    {
+        return em.createNamedQuery(Calculation.findByUsernameNotNull, Calculation.class).getResultList();
+    }
+
     public List<Calculation> findAll()
     {
         return em.createNamedQuery(Calculation.findAll, Calculation.class).getResultList();
