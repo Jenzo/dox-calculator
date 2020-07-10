@@ -1,4 +1,4 @@
-package calculator.business.calculation.webservice;
+package calculator.business.calculation.ws;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -14,6 +14,10 @@ public class CalculationGuard
 {
     private Logger LOG = LoggerFactory.getLogger(CalculationGuard.class);
 
+    
+    Calculation created;
+    Calculation received;
+    
     @EJB
     private CalculationApi calculationApi;
 

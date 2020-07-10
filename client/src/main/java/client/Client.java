@@ -21,6 +21,7 @@ public class Client
         final WebServiceCalculation_Service service = new WebServiceCalculation_Service();
         final WebServiceCalculation calculationService = service.getWebServiceCalculationPort();
 
+        // get Calculation from WebService
         Calculation calculationTO = calculationService.getCalculation();
 
         int operand1 = calculationTO.getOperand1();
@@ -29,8 +30,9 @@ public class Client
         String output = MessageFormat.format("empfangene Aufgabe: {0} + {1} = ?", operand1, operand2);
         LOG.info(output);
 
-        calculationTO.setUsername("Client");
-        int result = -1;
+        // set user name
+        calculationTO.setUsername("Test Client");
+        int result = operand1 + operand2;
 
         // cheat modus
         if(CHEATMODE)
@@ -42,13 +44,16 @@ public class Client
             result = op1 + op2;
             LOG.info("Cheatmodus an. Neue Aufgabe {} + {} = {}", op1, op2, result);
         }
+        
+        // set user result
         calculationTO.setUserResult(result);
 
         output = String.format("eingetragenes Ergebnis: %s", calculationTO.getUserResult());
         LOG.info(output);
 
-        LOG.info("sende und empfange gelöste Aufgabe...");
 
+        // send calculation back to WebService
+        LOG.info("sende und empfange gelöste Aufgabe...");
         try
         {
             calculationTO = calculationService.solveCalculation(calculationTO);
@@ -57,6 +62,7 @@ public class Client
         catch(CalculationWebServiceException_Exception e)
         {
             LOG.error("Fehler bei Einreichung. Grund: {}", e.getMessage());
+            return;
         }
 
         output = MessageFormat.format(

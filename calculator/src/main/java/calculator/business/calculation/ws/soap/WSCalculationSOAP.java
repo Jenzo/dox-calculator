@@ -1,4 +1,4 @@
-package calculator.business.calculation.webservice;
+package calculator.business.calculation.ws.soap;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -8,10 +8,9 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import calculator.business.calculation.CalculationService;
+import calculator.business.calculation.ws.CalculationGuard;
+import calculator.business.calculation.ws.CalculationWebServiceException;
 import calculator.model.calculation.Calculation;
 import calculator.model.calculation.CalculationApi;
 import calculator.model.calculation.CalculationBuilder;
@@ -19,7 +18,7 @@ import calculator.model.calculation.CalculationBuilder;
 @Stateless
 @WebService(serviceName = "WebServiceCalculation")
 @SOAPBinding(style = Style.RPC)
-public class WebServiceCalculation
+public class WSCalculationSOAP
 {
 
     @EJB

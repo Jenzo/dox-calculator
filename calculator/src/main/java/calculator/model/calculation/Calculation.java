@@ -1,5 +1,6 @@
 package calculator.model.calculation;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -7,13 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @NamedQuery(name = "Calculation.findAll", query = "SELECT c FROM Calculation c")
 @NamedQuery(name = "Calculation.findById", query= "SELECT c FROM Calculation c where c.id =:id")
 @NamedQuery(name = "Calculation.findByUsernameNotNull" , query = "SELECT c FROM Calculation c where c.username IS NOT NULL")
+@XmlRootElement
 @Entity
-public class Calculation
+public class Calculation implements Serializable
 {
+
+    private static final long serialVersionUID = 1L;
 
     public static final String findAll = "Calculation.findAll";
     public static final String findById = "Calculation.findById";

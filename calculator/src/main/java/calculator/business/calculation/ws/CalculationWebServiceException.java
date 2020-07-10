@@ -1,4 +1,4 @@
-package calculator.business.calculation.webservice;
+package calculator.business.calculation.ws;
 
 public class CalculationWebServiceException extends Exception
 {

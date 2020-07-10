@@ -8,19 +8,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id =:userId")
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username =:username")
+@XmlRootElement
 @Entity
 public class User implements Serializable
 {
+    private static final long serialVersionUID = 1L;
 
     public static final String findById = "User.findByID";
     public static final String findAll = "User.findAll";
     public static final String findByUsername = "User.findByUsername";
 
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<title>REST Test</title>
+		<meta charset="UTF-8" >
+		<script>
+		var baseurl = "http://localhost:8080/calculator/rest";
+		function loadUsers (){
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", baseurl + "/user/users", true);
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState === 4 && xhr.status === 200){
+					var users = JSON.parse(xhr.responseText);
+					var tbltop = '<table><tr><th>Id</th><th>Username</th><th>solved</th></tr>';
+					var main = "";
+					for(i = 0; i< users.length; ++i){
+						main += "<tr><td>" + users[i].id + "</td><td>" + users[i].username + "</td><td>" +users[i].solved +  "</td></tr>";
+					}
+					var tblbottom = "</table>";
+					var table = tbltop + main + tblbottom;
+					document.getElementById('users').innerHTML = table;	
+				}
+			};
+			xhr.send();
+		}
+		window.onload = function(){
+			loadUsers();
+		}
+
+		</script>
+	</head>
+	<body>
+		<div id="users"> </div>
+	</body>
+</html>
