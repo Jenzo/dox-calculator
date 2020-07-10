@@ -14,7 +14,7 @@ public class Client
 {
 
     private static final Logger LOG = LoggerFactory.getLogger(Client.class);
-    private static final boolean CHEATMODE = false;
+    private static final boolean CHEATMODE = true;
 
     public static void main(String[] args)
     {

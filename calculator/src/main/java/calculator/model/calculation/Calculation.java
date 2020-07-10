@@ -33,7 +33,7 @@ public class Calculation
 
     private boolean correctSolved;
 
-    private Date submittedAt;
+    private Date submitDate;
 
     public long getId()
     {
@@ -102,12 +102,12 @@ public class Calculation
 
     public Date getSubmittedAt()
     {
-        return submittedAt;
+        return submitDate;
     }
 
-    public void setSubmittedAt(Date submittedAt)
+    public void setSubmitDate(Date submittedAt)
     {
-        this.submittedAt = submittedAt;
+        this.submitDate = submittedAt;
     }
 
     @Override

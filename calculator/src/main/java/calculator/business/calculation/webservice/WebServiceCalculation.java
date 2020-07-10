@@ -5,6 +5,8 @@ import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.Style;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +18,9 @@ import calculator.model.calculation.CalculationBuilder;
 
 @Stateless
 @WebService(serviceName = "WebServiceCalculation")
+@SOAPBinding(style = Style.RPC)
 public class WebServiceCalculation
 {
-
-    private Logger LOG = LoggerFactory.getLogger(WebServiceCalculation.class);
 
     @EJB
     private CalculationService calculationService;
@@ -34,26 +35,23 @@ public class WebServiceCalculation
     public Calculation getCalculation()
     {
         final Calculation created = CalculationBuilder.newBuilder().build();
+        
+        // persist Calculation -> returned Calculation from SOAP-Client can be validated later 
         calculationApi.persist(created);
+        
         return created;
     }
 
     @WebMethod
-    public Calculation solveCalculation(@WebParam(name = "calculation") Calculation calculation)
+    public Calculation solveCalculation(@WebParam(name = "calculation") Calculation revceived)
             throws CalculationWebServiceException
     {
-        if(guard.isValid(calculation))
-        {
-            return calculationService.solve(calculation);
-        }
-        else
-        {
-            calculationApi.remove(calculation);
-            LOG.warn(
-                    "Möglicher Täuschungsversuch!! Die Aufgaben stimmen nicht überein. Die Operanden sind unterschiedlich.");
-            throw new CalculationWebServiceException(
-                    "Möglicher Täuschungsversuch!! Die Aufgaben stimmen nicht überein. Die Operanden sind unterschiedlich.");
-        }
+        // received Calculation can be validated in CalculationGuard
+        guard.validate(revceived);
+        
+        // if recevied Caluclation is valid -> 
+        // solve, merge and return back to SOAP-Client
+        return calculationService.solve(revceived);
 
     }
 

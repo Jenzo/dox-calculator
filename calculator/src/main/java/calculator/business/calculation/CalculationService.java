@@ -31,13 +31,17 @@ public class CalculationService
     public Calculation solve(final Calculation calculation)
     {
         LOG.info("CalculationService angefragt: {}", calculation);
+
         final int expectedResult = solve(calculation.getOperand1(), calculation.getOperand2(), Operation.ADD);
         final boolean solved = expectedResult == calculation.getUserResult();
 
         calculation.setCorrectSolved(solved);
-        calculation.setSubmittedAt(new Date());
+        calculation.setSubmitDate(new Date());
+
+        // merge Calculation -> CalculationWebService persist new Calculation before to validate received one
         calculationApi.merge(calculation);
 
+        // persist new User for Calculation
         final User user = UserBuilder.newBuilder().withUsername(calculation.getUsername()).withSolved(solved).build();
         userApi.persist(user);
 
